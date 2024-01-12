@@ -1,7 +1,6 @@
 const gameOptions = ["rock", "paper", "scissors"];
 const prompt = require("prompt-sync")({ sigint: true });
 
-
 game();
 
 function game() {
@@ -22,13 +21,13 @@ function game() {
     showTheMessage(computerMessageAfterSelection);
 
     roundResult = playRound(playerSelection, computerSelection);
-    
+
     switch (roundResult) {
       case "tie":
         break;
       case "user":
-          userScore++;
-          finishedRounds++;
+        userScore++;
+        finishedRounds++;
         break;
       case "computer":
         computerScore++;
@@ -36,10 +35,23 @@ function game() {
         break;
       default:
         break;
-    } 
+    }
+
+    if (userScore === 3 || computerScore === 3) {
+      break;
+    }
+
+    showTheMessage(
+      `User Score is: ${userScore}, Computer score is: ${computerScore}
+       Played rounds: ${finishedRounds}`
+    );
   }
-  
-  
+
+  if (userScore > computerScore) {
+    showTheMessage("You are the winner of our competition!");
+  } else {
+    showTheMessage("Computer is the winner of our competition!");
+  }
 }
 
 function getComputerChoice() {
@@ -48,24 +60,24 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-  
-let tieMessage = "It's a tie, let's replay the round";
+  let tieMessage = "It's a tie, let's replay the round";
 
   if (playerSelection === computerSelection) {
     showTheMessage(tieMessage);
-    return 'tie';
+    return "tie";
   }
-  
-  if (playerSelection === 'rock' && computerSelection === 'scissors' ||
-  playerSelection === 'paper' && computerSelection === 'rock' ||
-  playerSelection === 'scissors' && computerSelection === 'paper') {
-    showTheMessage(`You win ${playerSelection} beats ${computerSelection}`);
-    return 'user';
+
+  if (
+    (playerSelection === "rock" && computerSelection === "scissors") ||
+    (playerSelection === "paper" && computerSelection === "rock") ||
+    (playerSelection === "scissors" && computerSelection === "paper")
+  ) {
+    showTheMessage(`You win! ${playerSelection} beats ${computerSelection}`);
+    return "user";
   } else {
-    showTheMessage(`You lose ${computerSelection} beats ${playerSelection}`);
-    return 'computer';
+    showTheMessage(`You lose! ${computerSelection} beats ${playerSelection}`);
+    return "computer";
   }
-    
 }
 
 function getUserInput() {
