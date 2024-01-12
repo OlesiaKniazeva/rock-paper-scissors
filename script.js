@@ -100,7 +100,6 @@ function getUserInput() {
 
 function showTheMessage(message) {
   console.log(message);
-  //console.log("\n");
 }
 
 function startTheGame(gameRounds) {
