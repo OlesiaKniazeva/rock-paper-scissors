@@ -1,4 +1,10 @@
-const gameOptions = ["rock", "paper", "scissors"];
+const GAME_OPTIONS = ["rock", "paper", "scissors"];
+const RESULTS = {
+  TIE: "tie",
+  USER: "user",
+  COMPUTER: "computer",
+};
+
 const prompt = require("prompt-sync")({ sigint: true });
 
 game();
@@ -23,13 +29,13 @@ function game() {
     roundResult = playRound(playerSelection, computerSelection);
 
     switch (roundResult) {
-      case "tie":
+      case RESULTS.TIE:
         break;
-      case "user":
+      case RESULTS.USER:
         userScore++;
         finishedRounds++;
         break;
-      case "computer":
+      case RESULTS.COMPUTER:
         computerScore++;
         finishedRounds++;
         break;
@@ -55,16 +61,15 @@ function game() {
 }
 
 function getComputerChoice() {
-  let choice = Math.floor(Math.random() * gameOptions.length);
-  return gameOptions[choice];
+  let choice = Math.floor(Math.random() * GAME_OPTIONS.length);
+  return GAME_OPTIONS[choice];
 }
 
 function playRound(playerSelection, computerSelection) {
-  let tieMessage = "It's a tie, let's replay the round";
 
   if (playerSelection === computerSelection) {
-    showTheMessage(tieMessage);
-    return "tie";
+    showTheMessage("It's a tie, let's replay the round");
+    return RESULTS.TIE;
   }
 
   if (
@@ -73,10 +78,10 @@ function playRound(playerSelection, computerSelection) {
     (playerSelection === "scissors" && computerSelection === "paper")
   ) {
     showTheMessage(`You win! ${playerSelection} beats ${computerSelection}`);
-    return "user";
+    return RESULTS.USER;
   } else {
     showTheMessage(`You lose! ${computerSelection} beats ${playerSelection}`);
-    return "computer";
+    return RESULTS.COMPUTER;
   }
 }
 
@@ -87,15 +92,12 @@ function getUserInput() {
     "User it's your turn. Tell me your choice. Rock, paper or scissors? > "
   );
 
-  for (;;) {
-    if (gameOptions.includes(answer.toLowerCase())) {
-      return answer;
-    }
-
+  while(!GAME_OPTIONS.includes(answer.toLowerCase())) {
     answer = prompt(
       "Let's choose the right option. Rock, paper or scissors? > "
     );
-  }
+    }
+    return answer.toLowerCase();
 }
 
 function showTheMessage(message) {
