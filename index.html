@@ -1,10 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body></body>
+  <body>
+    <h1 class="game-header">Rock, Paper, Scissors Game</h1>
+    <div class="options-container">
+      <button type="button" class="rock option">
+        <img src="/images/rock.jpg" alt="rock-option">
+      </button>
+      <button type="button" class="paper option">
+        <img src="/images/paper.jpg" alt="paper-option">
+      </button>
+      <button type="button" class="scissors option">
+        <img src="images/scissors.jpg" alt="scissors-option">
+      </button>
+    </div>
+    <div class="results"></div>
+  </body>
 </html>
