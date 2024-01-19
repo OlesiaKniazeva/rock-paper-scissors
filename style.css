@@ -12,7 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items:center;
+  align-items: center;
   background-color: bisque;
   min-height: 100vh;
 }
@@ -34,13 +34,12 @@ button.option {
   border-style: none;
   border: 3px solid black;
   background-color: white;
-  vertical-align:middle;
+  vertical-align: middle;
   padding: 10px;
 }
 
 button.option img,
-.computer-choice-image img
- {
+.computer-choice-image img {
   border-radius: 15px;
   height: 100%;
   width: 100%;
@@ -60,7 +59,7 @@ button.option img,
 div.scores {
   min-width: 180px;
   min-height: 90px;
-  background-color: rgb(238, 194, 136);
+  background-color: hsl(34, 75%, 73%);
   border-radius: 15px;
   margin-left: auto;
   justify-content: center;
@@ -105,4 +104,13 @@ div.results-container {
   border-radius: 15px;
   margin-top: 10px;
   background-color: white;
+}
+
+.play-new-game button {
+  background-color: rgb(98, 138, 202);
+  border: 4px solid rgb(69, 104, 161);
+  border-radius: 5px;
+  color: white;
+  font-size: 25px;
+  padding: 15px 25px;
 }

@@ -8,25 +8,28 @@ const RESULTS = {
 
 const resultBox = document.querySelector('.results-data');
 
-const finishScore = 5;
+const FINISH_SCORE = 5;
+
 const roundsBox = document.querySelector('.rounds-amount');
 const scoreBox = document.querySelector('div.score-data');
-const computerChoice = document.querySelector('div.computer-choice-image');
+const computerChoiceDiv = document.querySelector('div.computer-choice-image');
+const buttonDiv = document.querySelector('.play-new-game');
+
 
 game();
 
 function game() {
   let userScore = 0;
   let computerScore = 0;
-  let roundsPlayed = 0;
 
-  roundsBox.textContent = `Let's play ${gameRounds} rounds`;
-
+  roundsBox.textContent = `Let's play till ${FINISH_SCORE} points`;
+  
   const options = document.querySelectorAll('button.option');
   console.log(options);
+  
   options.forEach((option) => {
     option.addEventListener('click', () => {
-      if (roundsPlayed < gameRounds) {
+      if (userScore < FINISH_SCORE && computerScore < FINISH_SCORE) {
         let result = playRound(option);
 
         switch (result) {
@@ -38,19 +41,49 @@ function game() {
           default:
             break;
         }
-        roundsPlayed++;
         scoreBox.textContent = `You ${userScore} : Computer ${computerScore}`;
+      }
+
+      if (userScore >= FINISH_SCORE || computerScore >= FINISH_SCORE) {
+        if (userScore >= FINISH_SCORE) {
+          showTheMessage('You are the winner of our competition!');
+        } else if (computerScore >= FINISH_SCORE) {
+          showTheMessage('Computer is the winner of our competition!');
+        }
+        let button = createResetButton();
+
+        button.addEventListener('click', () => {
+          resetTheGame();
+          userScore = 0;
+          computerScore = 0;
+        });
       }
     });
   });
+}
 
-  if (roundsPlayed >= 5) {
-    if (userScore > computerScore) {
-      showTheMessage('You are the winner of our competition!');
-    } else {
-      showTheMessage('Computer is the winner of our competition!');
-    }
+function createResetButton() {
+  const existingButton = buttonDiv.querySelector('button');
+  if (existingButton) {
+    return existingButton;
   }
+
+  const button = document.createElement('button');
+  button.textContent = 'Play New Game';
+
+  buttonDiv.appendChild(button);
+  return button;
+}
+
+function resetTheGame() {
+  scoreBox.textContent = `You 0 : Computer 0`;
+  showTheMessage('');
+  
+  const button = buttonDiv.querySelector('button');
+  buttonDiv.removeChild(button);
+
+  const computerImage = computerChoiceDiv.querySelector('img');
+  computerChoiceDiv.removeChild(computerImage);
 }
 
 function playRound(option) {
@@ -62,9 +95,11 @@ function playRound(option) {
   console.log(
     `Player option: ${playerSelection}, Computer option: ${computerSelection}`,
   );
+
   showComputerChoice(computerSelection);
+
   if (playerSelection === computerSelection) {
-    showTheMessage("It's a tie, let's replay the round");
+    showTheMessage("It's a tie, let's play one more time!");
     return RESULTS.TIE;
   }
 
@@ -73,28 +108,38 @@ function playRound(option) {
     (playerSelection === 'paper' && computerSelection === 'rock') ||
     (playerSelection === 'scissors' && computerSelection === 'paper')
   ) {
-    showTheMessage(`You win! ${playerSelection} beats ${computerSelection}`);
+    showTheMessage(
+      `You win the round! ${playerSelection} beats ${computerSelection}`,
+    );
     return RESULTS.USER;
   } else {
-    showTheMessage(`You lose! ${computerSelection} beats ${playerSelection}`);
+    showTheMessage(
+      `You lose the round! ${computerSelection} beats ${playerSelection}`,
+    );
     return RESULTS.COMPUTER;
   }
 }
 
 function showComputerChoice(computerChoice) {
-  const image = document.querySelector('.computer-choice-image img');
+  let computerImage = computerChoiceDiv.querySelector('img');
+
+  if (!computerImage) {
+    computerImage = document.createElement('img');
+    computerChoiceDiv.append(computerImage);
+  }
 
   switch (computerChoice) {
     case 'rock':
-      image.src = 'images/rock2.jpg';
-      image.alt = 'rock-option';
+      computerImage.src = 'images/rock2.jpg';
+      computerImage.alt = 'rock-option';
       break;
     case 'scissors':
-      image.src = 'images/scissors2.jpg';
-      image.alt = 'scissors-option';
+      computerImage.src = 'images/scissors2.jpg';
+      computerImage.alt = 'scissors-option';
+      break;
     case 'paper':
-      image.src = 'images/paper2.jpg';
-      image.alt = 'paper-option';
+      computerImage.src = 'images/paper2.jpg';
+      computerImage.alt = 'paper-option';
     default:
       break;
   }
