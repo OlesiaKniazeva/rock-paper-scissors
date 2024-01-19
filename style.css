@@ -38,6 +38,10 @@ button.option {
   padding: 10px;
 }
 
+button.option.selected {
+  border: 5px solid black;
+}
+
 button.option img,
 .computer-choice-image img {
   border-radius: 15px;

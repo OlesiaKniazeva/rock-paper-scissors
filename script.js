@@ -14,7 +14,7 @@ const roundsBox = document.querySelector('.rounds-amount');
 const scoreBox = document.querySelector('div.score-data');
 const computerChoiceDiv = document.querySelector('div.computer-choice-image');
 const buttonDiv = document.querySelector('.play-new-game');
-
+const options = document.querySelectorAll('button.option');
 
 game();
 
@@ -23,10 +23,7 @@ function game() {
   let computerScore = 0;
 
   roundsBox.textContent = `Let's play till ${FINISH_SCORE} points`;
-  
-  const options = document.querySelectorAll('button.option');
-  console.log(options);
-  
+
   options.forEach((option) => {
     option.addEventListener('click', () => {
       if (userScore < FINISH_SCORE && computerScore < FINISH_SCORE) {
@@ -78,7 +75,7 @@ function createResetButton() {
 function resetTheGame() {
   scoreBox.textContent = `You 0 : Computer 0`;
   showTheMessage('');
-  
+
   const button = buttonDiv.querySelector('button');
   buttonDiv.removeChild(button);
 
@@ -86,10 +83,23 @@ function resetTheGame() {
   computerChoiceDiv.removeChild(computerImage);
 }
 
+function resetAllSelections() {
+  options.forEach((option) => {
+    option.classList.remove('selected');
+  });
+}
+
+function showPlayerSelection(option) {
+  resetAllSelections();
+  option.classList.add('selected');
+}
+
 function playRound(option) {
   console.log(option);
 
   let playerSelection = option.className.split(' ')[0];
+  showPlayerSelection(option);
+
   let computerSelection = getComputerChoice();
 
   console.log(
