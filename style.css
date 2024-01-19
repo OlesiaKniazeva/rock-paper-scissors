@@ -38,7 +38,9 @@ button.option {
   padding: 10px;
 }
 
-button.option img {
+button.option img,
+.computer-choice-image img
+ {
   border-radius: 15px;
   height: 100%;
   width: 100%;
@@ -47,17 +49,60 @@ button.option img {
 
 .game-header {
   font-size: 40px;
-  margin-bottom: 50px;
+  margin: 10px;
 }
 
-.results {
-  min-width: 600px;
-  min-height: 100px;
+.rounds-amount {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+div.scores {
+  min-width: 180px;
+  min-height: 90px;
+  background-color: rgb(238, 194, 136);
+  border-radius: 15px;
+  margin-left: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 25px;
+  font-weight: 600;
+}
+
+.score-data {
+  font-weight: 200;
+  font-size: 25px;
+}
+
+div.results-container {
+  min-width: 700px;
+  min-height: 60px;
   border: black solid 2px;
   border-radius: 15px;
-  padding: 20px;
+  padding: 10px;
   font-size: 35px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.computer-choice-header {
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.results-data {
+  padding: 10px;
+}
+
+.computer-choice-image {
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin-top: 10px;
+  background-color: white;
 }

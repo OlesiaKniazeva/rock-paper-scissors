@@ -1,108 +1,111 @@
-const GAME_OPTIONS = ["rock", "paper", "scissors"];
+const GAME_OPTIONS = ['rock', 'paper', 'scissors'];
 
 const RESULTS = {
-  TIE: "tie",
-  USER: "user",
-  COMPUTER: "computer",
+  TIE: 'tie',
+  USER: 'user',
+  COMPUTER: 'computer',
 };
 
-const RESULT_BOX = document.querySelector(".results");
+const resultBox = document.querySelector('.results-data');
+
+const finishScore = 5;
+const roundsBox = document.querySelector('.rounds-amount');
+const scoreBox = document.querySelector('div.score-data');
+const computerChoice = document.querySelector('div.computer-choice-image');
 
 game();
 
 function game() {
-  const options = document.querySelectorAll("button.option");
+  let userScore = 0;
+  let computerScore = 0;
+  let roundsPlayed = 0;
+
+  roundsBox.textContent = `Let's play ${gameRounds} rounds`;
+
+  const options = document.querySelectorAll('button.option');
   console.log(options);
-  options.forEach(playRound);
+  options.forEach((option) => {
+    option.addEventListener('click', () => {
+      if (roundsPlayed < gameRounds) {
+        let result = playRound(option);
+
+        switch (result) {
+          case RESULTS.USER:
+            userScore++;
+            break;
+          case RESULTS.COMPUTER:
+            computerScore++;
+          default:
+            break;
+        }
+        roundsPlayed++;
+        scoreBox.textContent = `You ${userScore} : Computer ${computerScore}`;
+      }
+    });
+  });
+
+  if (roundsPlayed >= 5) {
+    if (userScore > computerScore) {
+      showTheMessage('You are the winner of our competition!');
+    } else {
+      showTheMessage('Computer is the winner of our competition!');
+    }
+  }
 }
 
 function playRound(option) {
-  let playerSelection;
+  console.log(option);
 
-  option.addEventListener("click", (event) => {
-    playerSelection = event.currentTarget.className.split(" ")[0];
-    console.log(event.currentTarget);
-    let computerSelection = getComputerChoice();
-    
-    console.log(
-      `Player option: ${playerSelection}, Computer option: ${computerSelection}`
-    );
-    if (playerSelection === computerSelection) {
-      showTheMessage("It's a tie, let's replay the round");
-      return RESULTS.TIE;
-    }
+  let playerSelection = option.className.split(' ')[0];
+  let computerSelection = getComputerChoice();
 
-    if (
-      (playerSelection === "rock" && computerSelection === "scissors") ||
-      (playerSelection === "paper" && computerSelection === "rock") ||
-      (playerSelection === "scissors" && computerSelection === "paper")
-    ) {
-      showTheMessage(`You win! ${playerSelection} beats ${computerSelection}`);
-      return RESULTS.USER;
-    } else {
-      showTheMessage(`You lose! ${computerSelection} beats ${playerSelection}`);
-      return RESULTS.COMPUTER;
-    }
-  });
+  console.log(
+    `Player option: ${playerSelection}, Computer option: ${computerSelection}`,
+  );
+  showComputerChoice(computerSelection);
+  if (playerSelection === computerSelection) {
+    showTheMessage("It's a tie, let's replay the round");
+    return RESULTS.TIE;
+  }
+
+  if (
+    (playerSelection === 'rock' && computerSelection === 'scissors') ||
+    (playerSelection === 'paper' && computerSelection === 'rock') ||
+    (playerSelection === 'scissors' && computerSelection === 'paper')
+  ) {
+    showTheMessage(`You win! ${playerSelection} beats ${computerSelection}`);
+    return RESULTS.USER;
+  } else {
+    showTheMessage(`You lose! ${computerSelection} beats ${playerSelection}`);
+    return RESULTS.COMPUTER;
+  }
+}
+
+function showComputerChoice(computerChoice) {
+  const image = document.querySelector('.computer-choice-image img');
+
+  switch (computerChoice) {
+    case 'rock':
+      image.src = 'images/rock2.jpg';
+      image.alt = 'rock-option';
+      break;
+    case 'scissors':
+      image.src = 'images/scissors2.jpg';
+      image.alt = 'scissors-option';
+    case 'paper':
+      image.src = 'images/paper2.jpg';
+      image.alt = 'paper-option';
+    default:
+      break;
+  }
 }
 
 function showTheMessage(message) {
   console.log(message);
-  RESULT_BOX.textContent = message;
+  resultBox.textContent = message;
 }
 
 function getComputerChoice() {
   let choice = Math.floor(Math.random() * GAME_OPTIONS.length);
   return GAME_OPTIONS[choice];
 }
-
-//function game() {
-//  const gameRounds = 5;
-//  let finishedRounds = 0;
-//  let computerScore = 0;
-//  let userScore = 0;
-//  let roundResult;
-
-//  startTheGame(gameRounds);
-//  while (finishedRounds < gameRounds) {
-//    let playerSelection = getUserInput();
-//    let userMessageAfterSelection = `Player Selected: ${playerSelection}`;
-//    showTheMessage(userMessageAfterSelection);
-
-//    let computerSelection = getComputerChoice();
-//    let computerMessageAfterSelection = `Computer Selected: ${computerSelection}`;
-//    showTheMessage(computerMessageAfterSelection);
-
-//    roundResult = playRound(playerSelection, computerSelection);
-
-//    switch (roundResult) {
-//      case RESULTS.TIE:
-//        break;
-//      case RESULTS.USER:
-//        userScore++;
-//        finishedRounds++;
-//        break;
-//      case RESULTS.COMPUTER:
-//        computerScore++;
-//        finishedRounds++;
-//        break;
-//      default:
-//        break;
-//    }
-
-//    if (userScore === 3 || computerScore === 3) {
-//      break;
-//    }
-
-//    showTheMessage(
-//      `User Score is: ${userScore}, Computer score is: ${computerScore}
-//       Played rounds: ${finishedRounds}`
-//    );
-//  }
-
-//  if (userScore > computerScore) {
-//    showTheMessage("You are the winner of our competition!");
-//  } else {
-//    showTheMessage("Computer is the winner of our competition!");
-//  }
-//}
