@@ -140,15 +140,15 @@ function showComputerChoice(computerChoice) {
 
   switch (computerChoice) {
     case 'rock':
-      computerImage.src = 'images/rock2.jpg';
+      computerImage.src = './images/rock2.jpg';
       computerImage.alt = 'rock-option';
       break;
     case 'scissors':
-      computerImage.src = 'images/scissors2.jpg';
+      computerImage.src = './images/scissors2.jpg';
       computerImage.alt = 'scissors-option';
       break;
     case 'paper':
-      computerImage.src = 'images/paper2.jpg';
+      computerImage.src = './images/paper2.jpg';
       computerImage.alt = 'paper-option';
     default:
       break;
