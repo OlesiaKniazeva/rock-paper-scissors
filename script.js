@@ -1,4 +1,8 @@
-const GAME_OPTIONS = ['rock', 'paper', 'scissors'];
+const GAME_OPTIONS = {
+  ROCK: 'rock',
+  PAPER: 'paper',
+  SCISSORS: 'scissors',
+};
 
 const RESULTS = {
   TIE: 'tie',
@@ -27,7 +31,7 @@ function game() {
   options.forEach((option) => {
     option.addEventListener('click', () => {
       if (userScore < FINISH_SCORE && computerScore < FINISH_SCORE) {
-        let result = playRound(option);
+        let result = playRoundAndReturnWinner(option);
 
         switch (result) {
           case RESULTS.USER:
@@ -89,34 +93,66 @@ function resetAllSelections() {
   });
 }
 
-function showPlayerSelection(option) {
+function showPlayerChoice(option) {
   resetAllSelections();
   option.classList.add('selected');
 }
 
-function playRound(option) {
+function showComputerChoice(computerChoice) {
+  let computerImage = computerChoiceDiv.querySelector('img');
+
+  if (!computerImage) {
+    computerImage = document.createElement('img');
+    computerChoiceDiv.append(computerImage);
+  }
+
+  switch (computerChoice) {
+    case GAME_OPTIONS.ROCK:
+      computerImage.src = './images/rock2.jpg';
+      computerImage.alt = 'rock-option';
+      break;
+    case GAME_OPTIONS.SCISSORS:
+      computerImage.src = './images/scissors2.jpg';
+      computerImage.alt = 'scissors-option';
+      break;
+    case GAME_OPTIONS.PAPER:
+      computerImage.src = './images/paper2.jpg';
+      computerImage.alt = 'paper-option';
+    default:
+      break;
+  }
+}
+
+function playRoundAndReturnWinner(option) {
   console.log(option);
 
-  let playerSelection = option.className.split(' ')[0];
-  showPlayerSelection(option);
+  let playerChoice = option.className.split(' ')[0];
+  showPlayerChoice(option);
 
-  let computerSelection = getComputerChoice();
+  let computerChoice = getComputerChoice();
 
   console.log(
-    `Player option: ${playerSelection}, Computer option: ${computerSelection}`,
+    `Player choice: ${playerChoice}, Computer choice: ${computerChoice}`,
   );
 
-  showComputerChoice(computerSelection);
+  showComputerChoice(computerChoice);
 
+  return chooseWinner(playerChoice, computerChoice);
+}
+
+function chooseWinner(playerSelection, computerSelection) {
   if (playerSelection === computerSelection) {
     showTheMessage("It's a tie, let's play one more time!");
     return RESULTS.TIE;
   }
 
   if (
-    (playerSelection === 'rock' && computerSelection === 'scissors') ||
-    (playerSelection === 'paper' && computerSelection === 'rock') ||
-    (playerSelection === 'scissors' && computerSelection === 'paper')
+    (playerSelection === GAME_OPTIONS.ROCK &&
+      computerSelection === GAME_OPTIONS.SCISSORS) ||
+    (playerSelection === GAME_OPTIONS.PAPER &&
+      computerSelection === GAME_OPTIONS.ROCK) ||
+    (playerSelection === GAME_OPTIONS.SCISSORS &&
+      computerSelection === GAME_OPTIONS.PAPER)
   ) {
     showTheMessage(
       `You win the round! ${playerSelection} beats ${computerSelection}`,
@@ -130,37 +166,14 @@ function playRound(option) {
   }
 }
 
-function showComputerChoice(computerChoice) {
-  let computerImage = computerChoiceDiv.querySelector('img');
-
-  if (!computerImage) {
-    computerImage = document.createElement('img');
-    computerChoiceDiv.append(computerImage);
-  }
-
-  switch (computerChoice) {
-    case 'rock':
-      computerImage.src = './images/rock2.jpg';
-      computerImage.alt = 'rock-option';
-      break;
-    case 'scissors':
-      computerImage.src = './images/scissors2.jpg';
-      computerImage.alt = 'scissors-option';
-      break;
-    case 'paper':
-      computerImage.src = './images/paper2.jpg';
-      computerImage.alt = 'paper-option';
-    default:
-      break;
-  }
-}
-
 function showTheMessage(message) {
   console.log(message);
   resultBox.textContent = message;
 }
 
 function getComputerChoice() {
-  let choice = Math.floor(Math.random() * GAME_OPTIONS.length);
-  return GAME_OPTIONS[choice];
+  const options = Object.values(GAME_OPTIONS);
+
+  let choice = Math.floor(Math.random() * options.length);
+  return options[choice];
 }
